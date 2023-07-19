@@ -57,7 +57,8 @@ function createMarkupInfo(arr) {
   loader.classList.add('loadEl');
   select.classList.remove('breed-select');
   return arr
-    .map(({ url }) => `<img src="${url}" alt="cat" width="400" > `)
+    .map(({ url, breeds: { 0: { description } } }) => `<img src="${url}" alt="cat" width="400" > 
+    <p>${description}</p>`)
     .join('');
 }
 
