@@ -26,16 +26,13 @@
   background-size: cover;
   background-position: center;
 }
-.loadEl{
+.loadEl,
+.breed-select,
+.error,
+.cat-info{
   display: none;
+}
 
-}
-.breed-select{
-  display: none;
-}
-.error{
-  display: none;
-}
 select{
   margin-bottom: 10px;
 }
@@ -74,4 +71,13 @@ select{
   100% {
     transform: rotate(360deg)
   }
+}
+.markup{
+  max-width: 768px;
+  display: flex;
+  margin: auto;
+}
+.markup-designe{
+  max-width: 700px;
+  margin-left: 30px;
 }

@@ -1,35 +1,24 @@
 import { fetchBreeds, fetchCatByBreed } from '/src/cat-api';
 import Notiflix from 'notiflix';
+import SlimSelect from 'slim-select';
 
-//  import SlimSelect from 'slim-select'
-// const slim = new SlimSelect({
-//     select: "#single",
-//     settings: {
-//         showSearch: false,
-//     }
 
-// })
-// console.log(slim);
+new SlimSelect({
+  select: '#single',
+  settings: {
+    showSearch: false,
+    searchText: '',
+  },
+});
 
 const breedSelect = document.querySelector('.breed-select');
 const catInfo = document.querySelector('.cat-info');
 const select = document.querySelector('select');
 const loader = document.querySelector('.loader');
-const error = document.querySelector('.error');
+// const error = document.querySelector('.error');
 
 select.classList.remove('breed-select');
 select.addEventListener('change', onSelectChange);
-
-function onSelectChange(e) {
-  const id = e.currentTarget.value;
-  loader.classList.remove('loadEl');
-  select.classList.add('breed-select');
-  fetchCatByBreed(id)
-    .then(resp => {
-      catInfo.innerHTML = createMarkupInfo(resp);
-    })
-    .catch(err => promisError(err));
-}
 
 fetchBreeds()
   .then(data => {
@@ -37,12 +26,16 @@ fetchBreeds()
   })
   .catch(err => promisError(err));
 
-function promisError(srt) {
-  Notiflix.Notify.failure(
-    'Oops! Something went wrong! Try reloading the page!'
-  );
-
-  loader.classList.add('loadEl');
+function onSelectChange(e) {
+  const id = e.currentTarget.value;
+  loader.classList.remove('loadEl');
+  select.classList.add('breed-select');
+  catInfo.classList.add('cat-info');
+  fetchCatByBreed(id)
+    .then(data => {
+      catInfo.innerHTML = createMarkupInfo(data);
+    })
+    .catch(err => promisError(err));
 }
 
 function createMarkupOption(arr) {
@@ -52,14 +45,31 @@ function createMarkupOption(arr) {
 }
 
 function createMarkupInfo(arr) {
-  console.log(arr);
-
   loader.classList.add('loadEl');
   select.classList.remove('breed-select');
+  catInfo.classList.remove('cat-info');
   return arr
-    .map(({ url, breeds: { 0: { description } } }) => `<img src="${url}" alt="cat" width="400" > 
-    <p>${description}</p>`)
+    .map(
+      ({
+        url,
+        breeds: {
+          0: { alt_names = '', description },
+        },
+      }) => `<div class="markup">
+    <img src="${url}" alt="cat" width="400" > 
+    <div class="markup-designe">
+       <h2> ${alt_names} </h2>
+    <p>${description}</p>
+      </div>
+    </div>`
+    )
     .join('');
 }
 
-// {weight: {…}, id: 'abys', name: 'Abyssinian', cfa_url: 'http://cfa.org/Breeds/BreedsAB/Abyssinian.aspx', vetstreet_url: 'http://www.vetstreet.com/cats/abyssinian', …}
+function promisError(srt) {
+  Notiflix.Notify.failure(
+    'Oops! Something went wrong! Try reloading the page!'
+  );
+
+  loader.classList.add('loadEl');
+}
