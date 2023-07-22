@@ -3,14 +3,6 @@ import Notiflix from 'notiflix';
 import SlimSelect from 'slim-select';
 
 
-new SlimSelect({
-  select: '#single',
-  settings: {
-    showSearch: false,
-    searchText: '',
-  },
-});
-
 const breedSelect = document.querySelector('.breed-select');
 const catInfo = document.querySelector('.cat-info');
 const select = document.querySelector('select');
@@ -73,3 +65,12 @@ function promisError(srt) {
 
   loader.classList.add('loadEl');
 }
+
+
+// new SlimSelect({
+//   select: '#single',
+//   settings: {
+//     showSearch: false,
+//     searchText: '',
+//   },
+// });
