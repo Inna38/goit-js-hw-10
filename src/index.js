@@ -9,7 +9,9 @@ const select = document.querySelector('select');
 const loader = document.querySelector('.loader');
 // const error = document.querySelector('.error');
 
-select.classList.remove('breed-select');
+  loader.classList.remove('loadEl');
+  select.classList.add('breed-select');
+
 select.addEventListener('change', onSelectChange);
 
 fetchBreeds()
@@ -31,6 +33,8 @@ function onSelectChange(e) {
 }
 
 function createMarkupOption(arr) {
+  loader.classList.add('loadEl');
+  select.classList.remove('breed-select');
   return arr
     .map(({ id, name }) => `<option value="${id}">${name}</option>`)
     .join('');
